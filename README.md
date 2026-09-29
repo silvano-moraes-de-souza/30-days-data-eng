@@ -13,14 +13,14 @@ One working system per day for 30 days, all built on the same synthetic e-commer
 
 ## Progress
 
-`2 / 31` (day 00 is setup)
+`3 / 31` (day 00 is setup)
 
 | Day | Project | What it shows | Stack | Status |
 |---:|---|---|---|---|
 | 00 | [shopflow-datagen](https://github.com/silvano-moraes-de-souza/shopflow-datagen) · [de-project-template](https://github.com/silvano-moraes-de-souza/de-project-template) | Deterministic synthetic data, project template, benchmark harness | Python, NumPy, PyArrow | done |
 | 01 | [ecommerce-data-pipeline](https://github.com/silvano-moraes-de-souza/ecommerce-data-pipeline) | Raw to star schema in PostgreSQL, idempotent batches, reconciliation; COPY 2.7x faster than INSERT (measured) | Python, PostgreSQL, Docker | done |
-| 02 | Data Quality Engine | Null rate, duplicates, outliers, schema drift, referential integrity | Python, Polars | next |
-| 03 | Incremental ETL / CDC | Watermarks, upserts, simulated CDC | Python, PostgreSQL | |
+| 02 | [data-quality-engine](https://github.com/silvano-moraes-de-souza/data-quality-engine) | 8 check types in YAML, quality score, CI gate; finds all 6 injected problem types with exact counts; business rule vs IQR measured | Python, Polars | done |
+| 03 | Incremental ETL / CDC | Watermarks, upserts, simulated CDC | Python, PostgreSQL | next |
 | 04 | Mini Lakehouse | Bronze, silver, gold; partitioning | Parquet, PyArrow, DuckDB | |
 | 05 | SQL Performance Lab | Indexes and plans, measured with EXPLAIN ANALYZE | PostgreSQL | |
 | 06 | Sales Analytics API | REST over the gold layer | FastAPI, DuckDB | |
