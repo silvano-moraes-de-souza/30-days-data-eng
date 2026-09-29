@@ -49,6 +49,20 @@ One working system per day for 30 days, all built on the same synthetic e-commer
 | 29 | ETL Benchmark Lab | Pandas vs Polars vs DuckDB, time and memory | Python | |
 | 30 | Mini Data Engineering Platform | Everything above, wired together | Docker Compose | |
 
+## Results so far
+
+Every number below comes from a benchmark committed in the project's `results/` folder.
+
+| Day | Headline result |
+|---:|---|
+| 00 | 19.5M rows of synthetic e-commerce data generated in 23.7 s; memory grows 16% from scale 10 to 50 |
+| 01 | COPY loads 2.7x faster than batched INSERT; 3.9M rows raw to star schema in 248 s, reconciled to the cent |
+| 02 | 6 of 6 injected problem types found with the exact row count; business rule 100% precise vs 20% for IQR |
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/silvano-moraes-de-souza/data-quality-engine/main/docs/assets/outlier_methods.png" alt="Day 02: exact rule vs IQR" width="80%">
+</p>
+
 ## How the projects connect
 
 ```mermaid
