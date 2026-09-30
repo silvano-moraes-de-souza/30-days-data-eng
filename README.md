@@ -13,15 +13,15 @@ One working system per day for 30 days, all built on the same synthetic e-commer
 
 ## Progress
 
-`3 / 31` (day 00 is setup)
+`4 / 31` (day 00 is setup)
 
 | Day | Project | What it shows | Stack | Status |
 |---:|---|---|---|---|
 | 00 | [shopflow-datagen](https://github.com/silvano-moraes-de-souza/shopflow-datagen) · [de-project-template](https://github.com/silvano-moraes-de-souza/de-project-template) | Deterministic synthetic data, project template, benchmark harness | Python, NumPy, PyArrow | done |
 | 01 | [ecommerce-data-pipeline](https://github.com/silvano-moraes-de-souza/ecommerce-data-pipeline) | Raw to star schema in PostgreSQL, idempotent batches, reconciliation; COPY 2.7x faster than INSERT (measured) | Python, PostgreSQL, Docker | done |
 | 02 | [data-quality-engine](https://github.com/silvano-moraes-de-souza/data-quality-engine) | 8 check types in YAML, quality score, CI gate; finds all 6 injected problem types with exact counts; business rule vs IQR measured | Python, Polars | done |
-| 03 | Incremental ETL / CDC | Watermarks, upserts, simulated CDC | Python, PostgreSQL | next |
-| 04 | Mini Lakehouse | Bronze, silver, gold; partitioning | Parquet, PyArrow, DuckDB | |
+| 03 | [postgres-cdc-pipeline](https://github.com/silvano-moraes-de-souza/postgres-cdc-pipeline) | Watermark, trigger log and WAL (pgoutput) capture scored against a simulated source with deletes and slow commits; versioned upserts, SCD2 history | Python, PostgreSQL | done |
+| 04 | Mini Lakehouse | Bronze, silver, gold; partitioning | Parquet, PyArrow, DuckDB | next |
 | 05 | SQL Performance Lab | Indexes and plans, measured with EXPLAIN ANALYZE | PostgreSQL | |
 | 06 | Sales Analytics API | REST over the gold layer | FastAPI, DuckDB | |
 | 07 | API Cache Layer | Cache-aside, TTL, invalidation, p50/p95 latency | Redis | |
@@ -58,9 +58,10 @@ Every number below comes from a benchmark committed in the project's `results/` 
 | 00 | 19.5M rows of synthetic e-commerce data generated in 23.7 s; memory grows 16% from scale 10 to 50 |
 | 01 | COPY loads 2.7x faster than batched INSERT; 3.9M rows raw to star schema in 248 s, reconciled to the cent |
 | 02 | 6 of 6 injected problem types found with the exact row count; business rule 100% precise vs 20% for IQR |
+| 03 | WAL and trigger-queue capture end with 0 wrong rows; the timestamp watermark with 11,893; WAL sync 5x faster than a full reload on 2M rows |
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/silvano-moraes-de-souza/data-quality-engine/main/docs/assets/outlier_methods.png" alt="Day 02: exact rule vs IQR" width="80%">
+  <img src="https://raw.githubusercontent.com/silvano-moraes-de-souza/postgres-cdc-pipeline/main/docs/assets/accuracy_rows_wrong.png" alt="Day 03: rows that differ from the source, by capture method" width="80%">
 </p>
 
 ## How the projects connect
