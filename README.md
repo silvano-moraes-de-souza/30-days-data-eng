@@ -13,7 +13,7 @@ One working system per day for 30 days, all built on the same synthetic e-commer
 
 ## Progress
 
-`5 / 31` (day 00 is setup)
+`6 / 31` (day 00 is setup)
 
 | Day | Project | What it shows | Stack | Status |
 |---:|---|---|---|---|
@@ -22,8 +22,8 @@ One working system per day for 30 days, all built on the same synthetic e-commer
 | 02 | [data-quality-engine](https://github.com/silvano-moraes-de-souza/data-quality-engine) | 8 check types in YAML, quality score, CI gate; finds all 6 injected problem types with exact counts; business rule vs IQR measured | Python, Polars | done |
 | 03 | [postgres-cdc-pipeline](https://github.com/silvano-moraes-de-souza/postgres-cdc-pipeline) | Watermark, trigger log and WAL (pgoutput) capture scored against a simulated source with deletes and slow commits; versioned upserts, SCD2 history | Python, PostgreSQL | done |
 | 04 | [mini-lakehouse](https://github.com/silvano-moraes-de-souza/mini-lakehouse) | Bronze, silver and gold on Parquet with late events, month partitions rewritten incrementally, compaction; reconciled to the cent | Python, DuckDB, Parquet | done |
-| 05 | SQL Performance Lab | Indexes and plans, measured with EXPLAIN ANALYZE | PostgreSQL | next |
-| 06 | Sales Analytics API | REST over the gold layer | FastAPI, DuckDB | |
+| 05 | [sql-performance-lab](https://github.com/silvano-moraes-de-souza/sql-performance-lab) | Eight slow queries and their fixes (composite, expression, partial, covering, BRIN, keyset, sargable, FK index), EXPLAIN ANALYZE before and after, write cost of indexes | Python, PostgreSQL | done |
+| 06 | Sales Analytics API | REST over the gold layer | FastAPI, DuckDB | next |
 | 07 | API Cache Layer | Cache-aside, TTL, invalidation, p50/p95 latency | Redis | |
 | 08 | Pipeline Observability | Metrics, structured logs, dashboards | Prometheus, Grafana | |
 | 09 | Pipeline Job Scheduler | DAGs, dependencies, run state | Python, PostgreSQL | |
@@ -60,9 +60,10 @@ Every number below comes from a benchmark committed in the project's `results/` 
 | 02 | 6 of 6 injected problem types found with the exact row count; business rule 100% precise vs 20% for IQR |
 | 03 | WAL and trigger-queue capture end with 0 wrong rows; the timestamp watermark with 11,893; WAL sync 5x faster than a full reload on 2M rows |
 | 04 | 1M orders over 2 years of daily drops reconciled to the cent; daily merge 77x faster than a full rebuild; compacting 2,878 small files into 25 makes a full scan 7.7x faster |
+| 05 | Eight fixes on 1M orders, each returning the same rows: keyset 5,141x over OFFSET, expression index 1,978x; BRIN 24 KB vs B-tree 63 MB; 7 indexes make inserts 20x slower |
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/silvano-moraes-de-souza/mini-lakehouse/main/docs/assets/incremental_vs_rebuild_median_s.png" alt="Day 04: daily merge vs full rebuild" width="80%">
+  <img src="https://raw.githubusercontent.com/silvano-moraes-de-souza/sql-performance-lab/main/docs/assets/cases_scale_10.png" alt="Day 05: eight slow queries and their fixes" width="80%">
 </p>
 
 ## How the projects connect
