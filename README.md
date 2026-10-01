@@ -13,7 +13,7 @@ One working system per day for 30 days, all built on the same synthetic e-commer
 
 ## Progress
 
-`4 / 31` (day 00 is setup)
+`5 / 31` (day 00 is setup)
 
 | Day | Project | What it shows | Stack | Status |
 |---:|---|---|---|---|
@@ -21,8 +21,8 @@ One working system per day for 30 days, all built on the same synthetic e-commer
 | 01 | [ecommerce-data-pipeline](https://github.com/silvano-moraes-de-souza/ecommerce-data-pipeline) | Raw to star schema in PostgreSQL, idempotent batches, reconciliation; COPY 2.7x faster than INSERT (measured) | Python, PostgreSQL, Docker | done |
 | 02 | [data-quality-engine](https://github.com/silvano-moraes-de-souza/data-quality-engine) | 8 check types in YAML, quality score, CI gate; finds all 6 injected problem types with exact counts; business rule vs IQR measured | Python, Polars | done |
 | 03 | [postgres-cdc-pipeline](https://github.com/silvano-moraes-de-souza/postgres-cdc-pipeline) | Watermark, trigger log and WAL (pgoutput) capture scored against a simulated source with deletes and slow commits; versioned upserts, SCD2 history | Python, PostgreSQL | done |
-| 04 | Mini Lakehouse | Bronze, silver, gold; partitioning | Parquet, PyArrow, DuckDB | next |
-| 05 | SQL Performance Lab | Indexes and plans, measured with EXPLAIN ANALYZE | PostgreSQL | |
+| 04 | [mini-lakehouse](https://github.com/silvano-moraes-de-souza/mini-lakehouse) | Bronze, silver and gold on Parquet with late events, month partitions rewritten incrementally, compaction; reconciled to the cent | Python, DuckDB, Parquet | done |
+| 05 | SQL Performance Lab | Indexes and plans, measured with EXPLAIN ANALYZE | PostgreSQL | next |
 | 06 | Sales Analytics API | REST over the gold layer | FastAPI, DuckDB | |
 | 07 | API Cache Layer | Cache-aside, TTL, invalidation, p50/p95 latency | Redis | |
 | 08 | Pipeline Observability | Metrics, structured logs, dashboards | Prometheus, Grafana | |
@@ -59,9 +59,10 @@ Every number below comes from a benchmark committed in the project's `results/` 
 | 01 | COPY loads 2.7x faster than batched INSERT; 3.9M rows raw to star schema in 248 s, reconciled to the cent |
 | 02 | 6 of 6 injected problem types found with the exact row count; business rule 100% precise vs 20% for IQR |
 | 03 | WAL and trigger-queue capture end with 0 wrong rows; the timestamp watermark with 11,893; WAL sync 5x faster than a full reload on 2M rows |
+| 04 | 1M orders over 2 years of daily drops reconciled to the cent; daily merge 77x faster than a full rebuild; compacting 2,878 small files into 25 makes a full scan 7.7x faster |
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/silvano-moraes-de-souza/postgres-cdc-pipeline/main/docs/assets/accuracy_rows_wrong.png" alt="Day 03: rows that differ from the source, by capture method" width="80%">
+  <img src="https://raw.githubusercontent.com/silvano-moraes-de-souza/mini-lakehouse/main/docs/assets/incremental_vs_rebuild_median_s.png" alt="Day 04: daily merge vs full rebuild" width="80%">
 </p>
 
 ## How the projects connect
