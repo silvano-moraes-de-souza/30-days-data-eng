@@ -13,7 +13,7 @@ One working system per day for 30 days, all built on the same synthetic e-commer
 
 ## Progress
 
-`6 / 31` (day 00 is setup)
+`7 / 31` (day 00 is setup)
 
 | Day | Project | What it shows | Stack | Status |
 |---:|---|---|---|---|
@@ -23,8 +23,8 @@ One working system per day for 30 days, all built on the same synthetic e-commer
 | 03 | [postgres-cdc-pipeline](https://github.com/silvano-moraes-de-souza/postgres-cdc-pipeline) | Watermark, trigger log and WAL (pgoutput) capture scored against a simulated source with deletes and slow commits; versioned upserts, SCD2 history | Python, PostgreSQL | done |
 | 04 | [mini-lakehouse](https://github.com/silvano-moraes-de-souza/mini-lakehouse) | Bronze, silver and gold on Parquet with late events, month partitions rewritten incrementally, compaction; reconciled to the cent | Python, DuckDB, Parquet | done |
 | 05 | [sql-performance-lab](https://github.com/silvano-moraes-de-souza/sql-performance-lab) | Eight slow queries and their fixes (composite, expression, partial, covering, BRIN, keyset, sargable, FK index), EXPLAIN ANALYZE before and after, write cost of indexes | Python, PostgreSQL | done |
-| 06 | Sales Analytics API | REST over the gold layer | FastAPI, DuckDB | next |
-| 07 | API Cache Layer | Cache-aside, TTL, invalidation, p50/p95 latency | Redis | |
+| 06 | [sales-analytics-api](https://github.com/silvano-moraes-de-souza/sales-analytics-api) | REST over the lakehouse gold and silver layers: typed contract, keyset cursors, problem+json errors, ETags; latency and throughput measured under load | FastAPI, DuckDB | done |
+| 07 | API Cache Layer | Cache-aside, TTL, invalidation, p50/p95 latency | Redis | next |
 | 08 | Pipeline Observability | Metrics, structured logs, dashboards | Prometheus, Grafana | |
 | 09 | Pipeline Job Scheduler | DAGs, dependencies, run state | Python, PostgreSQL | |
 | 10 | Pipeline Failure Simulator | Retries, backoff, reprocessing, recovery time | Python | |
@@ -61,9 +61,10 @@ Every number below comes from a benchmark committed in the project's `results/` 
 | 03 | WAL and trigger-queue capture end with 0 wrong rows; the timestamp watermark with 11,893; WAL sync 5x faster than a full reload on 2M rows |
 | 04 | 1M orders over 2 years of daily drops reconciled to the cent; daily merge 77x faster than a full rebuild; compacting 2,878 small files into 25 makes a full scan 7.7x faster |
 | 05 | Eight fixes on 1M orders, each returning the same rows: keyset 5,141x over OFFSET, expression index 1,978x; BRIN 24 KB vs B-tree 63 MB; 7 indexes make inserts 20x slower |
+| 06 | Gold endpoints at 3 to 5 ms p50 and up to 667 req/s from one process; summary from gold 24x faster than from 1M silver orders; ETag revalidation 3,763 req/s; one bound parameter costs 1.7 ms in DuckDB's Python client |
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/silvano-moraes-de-souza/sql-performance-lab/main/docs/assets/cases_scale_10.png" alt="Day 05: eight slow queries and their fixes" width="80%">
+  <img src="https://raw.githubusercontent.com/silvano-moraes-de-souza/sales-analytics-api/main/docs/assets/latency_by_endpoint.png" alt="Day 06: latency by endpoint" width="80%">
 </p>
 
 ## How the projects connect
